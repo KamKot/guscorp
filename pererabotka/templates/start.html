@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% block start %}
+    <div class="large-8 columns">
+{% for start in start_txt %}
+    <h4>{{ start.start_text }}</h4>
+    <p><a href="/pererabotka/">{{ start.start_description }}</a></p>
+{% endfor %}
+</div>
+{% endblock %}
+</body>
+</html>
