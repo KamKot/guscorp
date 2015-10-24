@@ -31,7 +31,7 @@ def get_start(request):
     args['username'] = auth.get_user(request).username
     return render_to_response('start.html', args)
 
-
+# добавление переработок в базу
 def add_per(request):
     if request.method == 'POST':
         b = models.brigada(name=request.POST['name'])
