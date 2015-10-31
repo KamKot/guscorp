@@ -31,8 +31,16 @@ def get_start(request):
     args['username'] = auth.get_user(request).username
     return render_to_response('start.html', args)
 
+
 # добавление переработок в базу
-def add_per(request):
+def add_per(request, page_number=1):
+    args = {}
+    all_pererabotki = pererabotka.objects.all()
+    current_page = Paginator(all_pererabotki, 1)
+    args['pererabotki'] = current_page.page(page_number)
+    args['username'] = auth.get_user(request).username
+    args['form'] = PerForm
+    args.update(csrf(request))
     if request.method == 'POST':
         b = models.brigada(name=request.POST['name'])
         a = models.pererabotka(p_id=request.POST['p_id'], p_date_start=request.POST['date_start'],
@@ -177,7 +185,10 @@ def add_per(request):
                 summa = sum_den + sum_noch
                 a.total_sum = summa
 
-            a.per_to_brigada_id = int(b.name[1])
-            a.save()
+        elif date_s > date_f:
+            args['time_error'] = 'Дата начала переработок больше даты окончания'
 
-    return redirect('/pererabotka/')
+        a.per_to_brigada_id = int(b.name[1])
+        a.save()
+
+    return render_to_response('pererabotka.html', args) and redirect('/pererabotka/')

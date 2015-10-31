@@ -6,6 +6,7 @@
 <div class="large-offset-0 large-5 columns ">
 <form action="/addpererabotka/" method="post">
     {% csrf_token %}
+    <p class="error">{{ time_error }}</p>
     <div class="large-5 columns">{{ form.name.label }}{{ form.name }}</div>
     <div class="large-push-0 large-5 column">{{ form.p_id.label }}{{ form.p_id }}</div>
     <div class="large-5 columns">{{ form.date_start.label }}{{ form.date_start }}</div>
