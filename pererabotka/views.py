@@ -19,8 +19,7 @@ def get_per(request, page_number=1):
     current_page = Paginator(all_pererabotki, 1)
     args['pererabotki'] = current_page.page(page_number)
     args['username'] = auth.get_user(request).username
-    args['form'] = PerForm
-    return render_to_response('pererabotka.html', args)
+    return render_to_response('show_pererabotka.html', args)
 
 # вывод стартовой страницы
 def get_start(request):
@@ -31,8 +30,13 @@ def get_start(request):
     args['username'] = auth.get_user(request).username
     return render_to_response('start.html', args)
 
+
 # добавление переработок в базу
 def add_per(request):
+    args = {}
+    args['username'] = auth.get_user(request).username
+    args['form'] = PerForm
+    args.update(csrf(request))
     if request.method == 'POST':
         b = models.brigada(name=request.POST['name'])
         a = models.pererabotka(p_id=request.POST['p_id'], p_date_start=request.POST['date_start'],
@@ -48,67 +52,139 @@ def add_per(request):
                  '19:00': 19, '19:30': 19.5, '20:00': 20, '20:30': 20.5, '21:00': 21, '21:30': 21.5, '22:00': 22,
                  '22:30': 22.5, '23:00': 23, '23:30': 23.5}
 
-        noch_start = datetime.datetime.today().replace(hour=00, minute=00)
-        noch_fin = datetime.datetime.today().replace(hour=6, minute=00)
-        noch_start1 = datetime.datetime.today().replace(hour=22, minute=00)
-        noch_fin1 = datetime.datetime.today().replace(hour=23, minute=59)
+        noch_start = 0
+        noch_fin = 6
+        noch_start1 = 22
+        noch_fin1 = 24
 
         date_s = datetime.datetime.strptime(a.p_date_start, '%Y-%m-%d')
         date_f = datetime.datetime.strptime(a.p_date_finish, '%Y-%m-%d')
-        q = int(a.p_time_start[:2])  # часы
-        w = int(a.p_time_start[3:5])  # минуты
-        nachalo = datetime.datetime.today().replace(hour=q, minute=w)
-        nachalo_x = (datetime.datetime.today().replace(hour=q, minute=w)).strftime('%H:%M')
-        nachalo_x = chasy.get(nachalo_x)  # количество часов  и минут в числовом формате
-        q = int(a.p_time_finish[:2])  # часы
-        w = int(a.p_time_finish[3:5])  # минуты
-        konec = datetime.datetime.today().replace(hour=q, minute=w)
-        konec_x = datetime.datetime.today().replace(hour=q, minute=w).strftime('%H:%M')
-        konec_x = chasy.get(konec_x)  # количество часов  и минут в числовом формате
-        #stop_date = konec - datetime.timedelta(hours=3.5)
+        nachalo = a.p_time_start
+        nachalo = chasy.get(nachalo)  # количество часов  и минут в числовом формате
+        konec = a.p_time_finish
+        konec = chasy.get(konec)
 
         if date_s == date_f:
             if noch_start <= nachalo <= noch_fin and noch_start1 <= konec <= noch_fin1:
                 # Если  время начала переработок между 00 и 06 и конец между 22 и 23:59
-                sum_chas = konec - datetime.timedelta(hours=nachalo_x)  # вычисляем общее количество отработанных часов
-                noch_chas = (sum_chas - datetime.timedelta(hours=16)).strftime('%H:%M')  # приводим к строковому виду
-                x = chasy.get(noch_chas)  # выбираем из словаря соответствие в числовом виде
-                den = 16 * 1.5 * 173.5
-                noch = x * 2 * 173.5
-                a.total_sum = den + noch
+                noch_chas = (noch_fin - nachalo) + (konec - noch_start1)
+                den_chas = noch_start1 - noch_fin
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
             elif noch_start <= nachalo <= noch_fin and noch_fin < konec < noch_start1:
                 # Если  время начала переработок между 00 и 06 и конец между 6 и 22:00
-                sum_chas = konec - datetime.timedelta(hours=nachalo_x)
-                noch_chas_x = noch_fin - datetime.timedelta(hours=nachalo_x)
-                noch_chas = (noch_fin - datetime.timedelta(hours=nachalo_x)).strftime('%H:%M')
-                x = chasy.get(noch_chas)
-                den_chas = (sum_chas - datetime.timedelta(hours=x)).strftime('%H:%M')
-                y = chasy.get(den_chas)
-                den = y * 1.5 * 173.5
-                noch = x * 2 * 173.5
-                a.total_sum = den + noch
+                noch_chas = (noch_fin - nachalo)
+                den_chas = konec - noch_fin
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
             elif noch_fin <= nachalo <= noch_start1 and noch_start1 < konec <= noch_fin1:
                 # Если  время начала переработок после 6:00 и конец между 22 и 23:59
-                sum_chas = konec - datetime.timedelta(hours=nachalo_x)
-                noch_chas = (konec - datetime.timedelta(hours=22)).strftime('%H:%M')
-                x = chasy.get(noch_chas)  # ночные часы
-                den_chas = (sum_chas - datetime.timedelta(hours=x)).strftime('%H:%M')
-                y = chasy.get(den_chas)  # дневные часы
-                den = y * 1.5 * 173.5
-                noch = x * 2 * 173.5
-                a.total_sum = den + noch
+                noch_chas = konec - noch_start1
+                den_chas = noch_start1 - noch_fin
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
             elif noch_fin <= nachalo < konec <= noch_start1:
                 # Если  время начала переработок 06 и конец 22
-                sum_chas = (konec - datetime.timedelta(hours=nachalo_x)).strftime('%H:%M')
-                x = chasy.get(sum_chas)
-                den = x * 1.5 * 173.5
-                a.total_sum = den
-            elif noch_start < nachalo < konec < noch_fin or noch_start1 < nachalo < konec < noch_fin1:
-                # Если  время начала переработок между 00 и 06 или  между 22 и 23:59
-                sum_chas = (konec - datetime.timedelta(hours=nachalo_x)).strftime('%H:%M')
-                x = chasy.get(sum_chas)
-                noch = x * 2 * 173.5
-                a.total_sum = noch
+                den_chas = noch_start1 - noch_fin
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den
+                a.total_sum = summa
+            elif noch_start <= nachalo < konec <= noch_fin:
+                # Если  время начала переработок между 00 и 06
+                noch_chas = noch_fin - nachalo
+                sum_noch = noch_chas * 2 * 173.5
+                summa = sum_noch
+                a.total_sum = summa
+            elif noch_start1 <= nachalo < konec <= noch_fin1:
+                # Если  время начала переработок между 22 и 23:59
+                noch_chas = noch_fin - nachalo
+                sum_noch = noch_chas * 2 * 173.5
+                summa = sum_noch
+                a.total_sum = summa
+            a.per_to_brigada_id = int(b.name[1])
+            a.save()
+        elif date_s < date_f:
+            if noch_start <= nachalo <= noch_fin and noch_start <= konec <= noch_fin:
+                # Если  время начала переработок между 00 и 06 и конец между 00 и 06 следующего дня
+                noch_chas = (noch_fin - nachalo) + (noch_fin1 - noch_start1) + konec
+                den_chas = noch_start1 - noch_fin
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
+            elif noch_start <= nachalo <= noch_fin and noch_fin <= konec <= noch_start1:
+                # Если  время начала переработок между 00 и 06 и конец между 06 и 22 следующего дня
+                noch_chas = (noch_fin - nachalo) + (noch_fin1 - noch_start1) + noch_fin
+                den_chas = (noch_start1 - noch_fin) + (konec - noch_fin)
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
+            elif noch_start <= nachalo <= noch_fin and noch_start1 <= konec <= noch_fin1:
+                # Если  время начала переработок между 00 и 06 и конец между 22 и 24 следующего дня
+                noch_chas = (noch_fin - nachalo) + (noch_fin1 - noch_start1) + noch_fin + (konec - noch_start1)
+                den_chas = (noch_start1 - noch_fin) + (noch_start1 - noch_fin)
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
+            elif noch_fin <= nachalo <= noch_start1 and noch_start <= konec <= noch_fin:
+                # Если  время начала переработок между 06 и 22 и конец между 00 и 06 следующего дня
+                noch_chas = (noch_fin1 - noch_start1) + konec
+                den_chas = noch_start1 - nachalo
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
+            elif noch_fin <= nachalo <= noch_start1 and noch_fin <= konec <= noch_start1:
+                # Если  время начала переработок между 06 и 22 и конец между 06 и 22 следующего дня
+                noch_chas = (noch_fin1 - noch_start1) + (noch_fin - noch_start)
+                den_chas = (noch_start1 - nachalo) + (konec - noch_fin)
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
+            elif noch_fin <= nachalo <= noch_start1 and noch_start <= konec <= noch_fin1:
+                # Если  время начала переработок между 06 и 22 и конец между 22 и 24 следующего дня
+                noch_chas = (noch_fin1 - noch_start1) + (noch_fin - noch_start) + (noch_fin1 - konec)
+                den_chas = (noch_start1 - nachalo) + (noch_start1 - noch_fin)
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
+            elif noch_start1 <= nachalo <= noch_fin1 and noch_start <= konec <= noch_fin:
+                # Если  время начала переработок между 22 и 24 и конец между 00 и 06 следующего дня
+                noch_chas = (noch_fin1 - nachalo) + konec
+                sum_noch = noch_chas * 2 * 173.5
+                summa = sum_noch
+                a.total_sum = summa
+            elif noch_start1 <= nachalo <= noch_fin1 and noch_fin <= konec <= noch_start1:
+                # Если  время начала переработок между 22 и 24 и конец между 06 и 22 следующего дня
+                noch_chas = (noch_fin1 - nachalo) + noch_fin
+                den_chas = konec - noch_fin
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_noch + sum_den
+                a.total_sum = summa
+            elif noch_start1 <= nachalo <= noch_fin1 and noch_start1 <= konec <= noch_fin1:
+                # Если  время начала переработок между 22 и 24 и конец между 22 и 24 следующего дня
+                noch_chas = (noch_fin1 - nachalo) + (noch_fin - noch_start) + (noch_fin1 - konec)
+                den_chas = noch_start1 - noch_fin
+                sum_noch = noch_chas * 2 * 173.5
+                sum_den = den_chas * 1.5 * 173.5
+                summa = sum_den + sum_noch
+                a.total_sum = summa
+
+        elif date_s > date_f:
+            args['time_error'] = 'Дата начала переработок больше даты окончания'
+
         a.per_to_brigada_id = int(b.name[1])
         a.save()
-    return redirect('/pererabotka/')
+
+    return render_to_response('add_pererabotka.html', args)
