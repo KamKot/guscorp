@@ -19,8 +19,7 @@ def get_per(request, page_number=1):
     current_page = Paginator(all_pererabotki, 1)
     args['pererabotki'] = current_page.page(page_number)
     args['username'] = auth.get_user(request).username
-    args['form'] = PerForm
-    return render_to_response('pererabotka.html', args)
+    return render_to_response('show_pererabotka.html', args)
 
 # вывод стартовой страницы
 def get_start(request):
@@ -33,11 +32,8 @@ def get_start(request):
 
 
 # добавление переработок в базу
-def add_per(request, page_number=1):
+def add_per(request):
     args = {}
-    all_pererabotki = pererabotka.objects.all()
-    current_page = Paginator(all_pererabotki, 1)
-    args['pererabotki'] = current_page.page(page_number)
     args['username'] = auth.get_user(request).username
     args['form'] = PerForm
     args.update(csrf(request))
@@ -191,4 +187,4 @@ def add_per(request, page_number=1):
         a.per_to_brigada_id = int(b.name[1])
         a.save()
 
-    return render_to_response('pererabotka.html', args) and redirect('/pererabotka/')
+    return render_to_response('add_pererabotka.html', args)

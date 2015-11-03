@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+
+{% block pererabotka %}
+{% if username %}
+<div class="large-offset-0 large-5 columns ">
+<form action="/addpererabotka/" method="post">
+    {% csrf_token %}
+    <p class="error">{{ time_error }}</p>
+    <div class="large-5 columns">{{ form.name.label }}{{ form.name }}</div>
+    <div class="large-push-0 large-5 column">{{ form.p_id.label }}{{ form.p_id }}</div>
+    <div class="large-5 columns">{{ form.date_start.label }}{{ form.date_start }}</div>
+    <div class="large-push-0 large-5 column">{{ form.time_start.label }}{{ form.time_start }}</div>
+    <div class="large-5 columns">{{ form.date_finish.label }}{{ form.date_finish }}</div>
+    <div class="large-push-0 large-5 column">{{ form.time_finish.label }}{{ form.time_finish }}</div>
+    <div class="large-10 column">{{ form.address.label }}{{ form.address }}</div>
+    <div class="large-10 column">{{ form.description.label }}{{ form.description }}</div>
+    <div class="large-10 column">{{ form.driver_name.label }}{{ form.driver_name }}</div>
+    <div class="large-4 column">{{ form.p_hours_cost.label }}{{ form.p_hours_cost }}</div>
+    <div class="large-push-1 large-4 column">{{ form.p_total_hours.label }}{{ form.p_total_hours }}</div>
+    <input type="submit" class="button column" value="Внести выезд">
+</form>
+</div>
+    {% else %}
+    <p>Для продолжения работы войдите под своим логином или зарегистрируйтесь</p>
+    <a href="/auth/login/">Войти</a>
+    {% endif %}
+{% endblock %}
