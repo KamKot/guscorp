@@ -29,12 +29,7 @@ class PerForm(forms.ModelForm):
         fields = ['p_id', 'p_date_start', 'p_date_finish', 'p_address', 'p_description', 'hours_cost',
                   'total_hours', 'total_sum']
         vv = forms.ModelForm'''
-def test():
-    a = brigada.objects.all()
-    z = []
-    for i in a:
-        z.append(i)
-    return z
+
 
 class PerForm(forms.Form):
         #name = forms.ChoiceField(label='Имя сотрудника', widget=forms.SelectMultiple, choices=CHOICES)

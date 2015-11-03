@@ -5,7 +5,7 @@
 {% if username %}
 <div class="large-push-1 large-7 columns">
 {% for per in pererabotki %}
-    <h5>Имя сотрудника: {{ per.name }}</h5>
+    <h5>Имя сотрудника: {{ per.per_to_brigada.name }}</h5>
     <p>ID бригады: {{ per.p_id }}</p>
     <p>Дата начала выезда: {{ per.p_date_start }}</p>
     <p>Время начала выезда: {{ per.p_time_start }}</p>
