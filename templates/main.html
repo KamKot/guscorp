@@ -10,6 +10,11 @@
 <body>
 <div class="top-bar">
     <section class="top-bar-section">
+        <ul class="title-area">
+            <li class="name">
+            <h1><a href="/">Главная</a></h1>
+            </li>
+        </ul>
         <ul class="right">
             {% if username %}
             <li><a href="/auth/logout/">Выйти ({{ username }})</a></li>
@@ -25,8 +30,8 @@
         </ul>
     </section>
 </div>
-<h2><a href="/">ГЛАВНАЯ</a></h2>
 <div class="row">
+<p class="large-12 large-uncollapse"></p>
 {% block start %}{% endblock %}
 {% block pererabotka %}{% endblock %}
 {% block login %}{% endblock %}

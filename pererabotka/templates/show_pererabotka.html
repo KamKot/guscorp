@@ -3,14 +3,14 @@
 
 {% block pererabotka %}
 {% if username %}
-<div class="large-push-1 large-7 columns">
+<div class="row">
 {% for per in pererabotki %}
     <h5>Имя сотрудника: {{ per.per_to_brigada.name }}</h5>
     <p>ID бригады: {{ per.p_id }}</p>
-    <p>Дата начала выезда: {{ per.p_date_start }}</p>
-    <p>Время начала выезда: {{ per.p_time_start }}</p>
-    <p>Дата окончания выезда: {{ per.p_date_finish }}</p>
-    <p>Время окончания выезда: {{ per.p_time_finish }}</p>
+    <p class="large-5 columns">Дата начала выезда: {{ per.p_date_start }}</p>
+    <p class="large-7 columns">Время начала выезда: {{ per.p_time_start }}</p>
+    <p class="large-5 columns">Дата окончания выезда: {{ per.p_date_finish }}</p>
+    <p class="large-7 columns">Время окончания выезда: {{ per.p_time_finish }}</p>
     <p>Адрес выезда: {{ per.p_address }}</p>
     <p>Описание выезда: {{ per.p_description }}</p>
     <p>Стоимость часа: {{ per.hours_cost }}</p>
