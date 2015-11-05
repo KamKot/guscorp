@@ -6,18 +6,38 @@
 <div class="large-offset-0 large-5 columns ">
 <form action="/addpererabotka/" method="post">
     {% csrf_token %}
-    <p class="error">{{ time_error }}</p>
-    <div class="large-5 columns">{{ form.name.label }}{{ form.name }}</div>
-    <div class="large-push-0 large-5 column">{{ form.p_id.label }}{{ form.p_id }}</div>
-    <div class="large-5 columns calendar-shortcuts">{{ form.date_start.label }}{{ form.date_start }}</div>
-    <div class="large-push-0 large-5 column">{{ form.time_start.label }}{{ form.time_start }}</div>
-    <div class="large-5 columns">{{ form.date_finish.label }}{{ form.date_finish }}</div>
-    <div class="large-push-0 large-5 column">{{ form.time_finish.label }}{{ form.time_finish }}</div>
-    <div class="large-10 column">{{ form.address.label }}{{ form.address }}</div>
-    <div class="large-10 column">{{ form.description.label }}{{ form.description }}</div>
-    <div class="large-10 column">{{ form.driver_name.label }}{{ form.driver_name }}</div>
-    <div class="large-4 column">{{ form.p_hours_cost.label }}{{ form.p_hours_cost }}</div>
-    <div class="large-push-1 large-4 column">{{ form.p_total_hours.label }}{{ form.p_total_hours }}</div>
+
+    <div class="small-5 columns">
+        {{ form.name }}
+    </div>
+    <div class="small-7 columns">
+        <input type="text" placeholder="ID бригады" name="p_id" required>
+    </div>
+    <div class="small-6 column">
+        <label for="date_start">Дата начала:</label>
+        <input type="date" name="date_start" placeholder="Введите дату" required/>
+    </div>
+    <div class="large-5 column">
+        <label for="time_start">Время начала:</label>
+        <input type="time" name="time_start" required/>
+    </div>
+    <div class="small-6 column">
+        <label for="date_start">Дата окончания:</label>
+        <input type="date" name="date_finish" required/>
+    </div>
+    <div class="large-push-0 large-5 column">
+        <label for="time_finish">Время окончания:</label>
+        <input type="time" name="time_finish" required/>
+    </div>
+    <div class="large-10 column">
+        <input type="text" placeholder="Адрес выезда" name="address" required>
+    </div>
+    <div class="large-10 column">
+        <textarea placeholder="Описание выезда" name="description" rows="6" wrap="soft" required></textarea>
+    </div>
+    <div class="large-4 column">
+        <input type="number" placeholder="Стоимость часа" value="173.5" min="0" required>
+    </div>
     <input type="submit" class="button column" value="Внести выезд">
 </form>
 </div>

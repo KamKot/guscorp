@@ -35,12 +35,6 @@ class PerForm(forms.Form):
         #name = forms.ChoiceField(label='Имя сотрудника', widget=forms.SelectMultiple, choices=CHOICES)
         name = forms.ModelChoiceField(queryset=brigada.objects.values_list('id', 'name'), widget=forms.Select)
         p_id = forms.CharField(max_length=1, label='ID бригады')
-        '''date_start = forms.DateField(label='Дата начала выезда', initial=datetime.date.today,
-                                     widget=SelectDateWidget(years=range(year, year-5, 5)))'''
-        date_start = forms.DateField(label='Дата начала выезда')
-        time_start = forms.TimeField(label='Время начала выезда')
-        date_finish = forms.DateField(label='Дата окончания выезда')
-        time_finish = forms.TimeField(label='Время окончания выезда')
         address = forms.CharField(label='Адрес выезда')
         description = forms.CharField(label='Описание выезда', widget=forms.Textarea)
         p_hours_cost = forms.FloatField(label='Стоимость часа')
