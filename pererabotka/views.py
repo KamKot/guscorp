@@ -15,10 +15,12 @@ import datetime
 def get_per(request, page_number=1):
     args = {}
     args.update(csrf(request))
-    all_pererabotki = pererabotka.objects.all()
+    user = auth.get_user(request).username
+    user_id = auth.get_user(request).id
+    all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id)
     current_page = Paginator(all_pererabotki, 1)
     args['pererabotki'] = current_page.page(page_number)
-    args['username'] = auth.get_user(request).username
+    args['username'] = user
     return render_to_response('show_pererabotka.html', args)
 
 # вывод стартовой страницы
