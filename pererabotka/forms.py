@@ -34,7 +34,3 @@ class PerForm(forms.ModelForm):
 class PerForm(forms.Form):
         #name = forms.ChoiceField(label='Имя сотрудника', widget=forms.SelectMultiple, choices=CHOICES)
         name = forms.ModelChoiceField(queryset=brigada.objects.values_list('id', 'name'), widget=forms.Select)
-        p_id = forms.CharField(max_length=1, label='ID бригады')
-        address = forms.CharField(label='Адрес выезда')
-        description = forms.CharField(label='Описание выезда', widget=forms.Textarea)
-        p_hours_cost = forms.FloatField(label='Стоимость часа')
