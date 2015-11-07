@@ -28,8 +28,10 @@ class pererabotka(models.Model):
     p_address = models.TextField(verbose_name='Адрес выезда')
     p_description = models.TextField(verbose_name='Описание заявки')
     hours_cost = models.FloatField(default=173.5)
-    den = models.FloatField(verbose_name='Количество дневных часов', default=0)
-    noch = models.FloatField(verbose_name='Количество ночных часов', default=0)
+    den = models.FloatField(verbose_name='Сумма дневных часов', default=0)
+    noch = models.FloatField(verbose_name='Сумма ночных часов', default=0)
+    kol_den = models.FloatField(verbose_name='Количество дневных часов', default=0)
+    kol_noch = models.FloatField(verbose_name='Количество ночных часов', default=0)
     total_hours = models.FloatField(default=1)
     total_sum = models.FloatField(default=0)
 

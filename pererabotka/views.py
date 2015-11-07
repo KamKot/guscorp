@@ -75,6 +75,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_start <= nachalo <= noch_fin and noch_fin < konec < noch_start1:
                 # Если  время начала переработок между 00 и 06 и конец между 6 и 22:00
@@ -83,6 +91,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_fin <= nachalo <= noch_start1 and noch_start1 < konec <= noch_fin1:
                 # Если  время начала переработок после 6:00 и конец между 22 и 23:59
@@ -91,24 +107,47 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                a.total_hours = total_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_fin <= nachalo < konec <= noch_start1:
                 # Если  время переработок между 06 и 22
                 den_chas = konec - nachalo
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den
+                total_chas = den_chas
+                kol_den_chas = den_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
                 a.total_sum = summa
             elif noch_start <= nachalo < konec <= noch_fin:
                 # Если  время начала переработок между 00 и 06
                 noch_chas = noch_fin - nachalo
                 sum_noch = noch_chas * 2 * cena_chasa
                 summa = sum_noch
+                total_chas = noch_chas
+                a.total_hours = total_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_start1 <= nachalo < konec <= noch_fin1:
                 # Если  время начала переработок между 22 и 23:59
                 noch_chas = noch_fin1 - nachalo
                 sum_noch = noch_chas * 2 * cena_chasa
                 summa = sum_noch
+                total_chas = noch_chas
+                a.total_hours = total_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.noch = sum_noch
                 a.total_sum = summa
             a.per_to_brigada_id = int(b.name[1])
             a.save()
@@ -120,6 +159,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_start <= nachalo <= noch_fin and noch_fin <= konec <= noch_start1:
                 # Если  время начала переработок между 00 и 06 и конец между 06 и 22 следующего дня
@@ -128,6 +175,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_start <= nachalo <= noch_fin and noch_start1 <= konec <= noch_fin1:
                 # Если  время начала переработок между 00 и 06 и конец между 22 и 24 следующего дня
@@ -136,6 +191,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_fin <= nachalo <= noch_start1 and noch_start <= konec <= noch_fin:
                 # Если  время начала переработок между 06 и 22 и конец между 00 и 06 следующего дня
@@ -144,6 +207,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_fin <= nachalo <= noch_start1 and noch_fin <= konec <= noch_start1:
                 # Если  время начала переработок между 06 и 22 и конец между 06 и 22 следующего дня
@@ -152,6 +223,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_fin <= nachalo <= noch_start1 and noch_start <= konec <= noch_fin1:
                 # Если  время начала переработок между 06 и 22 и конец между 22 и 24 следующего дня
@@ -160,12 +239,25 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_start1 <= nachalo <= noch_fin1 and noch_start <= konec <= noch_fin:
                 # Если  время начала переработок между 22 и 24 и конец между 00 и 06 следующего дня
                 noch_chas = (noch_fin1 - nachalo) + konec
                 sum_noch = noch_chas * 2 * cena_chasa
                 summa = sum_noch
+                total_chas = noch_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.total_hours = total_chas
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_start1 <= nachalo <= noch_fin1 and noch_fin <= konec <= noch_start1:
                 # Если  время начала переработок между 22 и 24 и конец между 06 и 22 следующего дня
@@ -174,6 +266,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_noch + sum_den
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
             elif noch_start1 <= nachalo <= noch_fin1 and noch_start1 <= konec <= noch_fin1:
                 # Если  время начала переработок между 22 и 24 и конец между 22 и 24 следующего дня
@@ -182,6 +282,14 @@ def add_per(request):
                 sum_noch = noch_chas * 2 * cena_chasa
                 sum_den = den_chas * 1.5 * cena_chasa
                 summa = sum_den + sum_noch
+                total_chas = den_chas + noch_chas
+                kol_den_chas = den_chas
+                kol_nosh_chas = noch_chas
+                a.kol_noch = kol_nosh_chas
+                a.kol_den = kol_den_chas
+                a.total_hours = total_chas
+                a.den = sum_den
+                a.noch = sum_noch
                 a.total_sum = summa
 
         elif date_s > date_f:

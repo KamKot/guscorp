@@ -7,15 +7,19 @@
 {% for per in pererabotki %}
     <h5>Имя сотрудника: {{ per.per_to_brigada.name }}</h5>
     <p>ID бригады: {{ per.p_id }}</p>
-    <p class="large-5 columns">Дата начала выезда: {{ per.p_date_start }}</p>
-    <p class="large-7 columns">Время начала выезда: {{ per.p_time_start }}</p>
-    <p class="large-5 columns">Дата окончания выезда: {{ per.p_date_finish }}</p>
-    <p class="large-7 columns">Время окончания выезда: {{ per.p_time_finish }}</p>
-    <p>Адрес выезда: {{ per.p_address }}</p>
-    <p>Описание выезда: {{ per.p_description }}</p>
-    <p>Стоимость часа: {{ per.hours_cost }}</p>
-    <p>Колисчество часов: {{ per.total_hours }}</p>
-    <p>Сумма: {{ per.total_sum }}</p>
+    <p class="small-5 columns">Дата начала выезда: {{ per.p_date_start }}</p>
+    <p class="small-7 columns">Время начала выезда: {{ per.p_time_start }}</p>
+    <p class="small-5 columns">Дата окончания выезда: {{ per.p_date_finish }}</p>
+    <p class="small-7 columns">Время окончания выезда: {{ per.p_time_finish }}</p>
+    <p class="small-8 column">Адрес выезда: {{ per.p_address }}</p>
+    <p class="small-8 column">Описание выезда: {{ per.p_description }}</p>
+    <p class="small-8 column">Стоимость часа: {{ per.hours_cost }}</p>
+    <p class="small-5 columns">Количество дневных часов: {{ per.kol_den }}</p>
+    <p class="small-7 columns">Сумма дневных часов: {{ per.den }}</p>
+    <p class="small-5 columns">Количество ночных часов: {{ per.kol_noch }}</p>
+    <p class="small-7 columns">Сумма ночных часов: {{ per.noch }}</p>
+    <p class="small-8 column">Общее количество отработанных часов: {{ per.total_hours }}</p>
+    <p class="small-8 column">Сумма: {{ per.total_sum }}</p>
     <hr>
 {% endfor %}
 <div class="row">
