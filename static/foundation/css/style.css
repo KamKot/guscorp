@@ -20,7 +20,7 @@
 	}
 
 	.modalDialog > div {
-		width: 80%;
+		width: 50%;
 		height: 95%;
 		position: relative;
 		margin: 1% auto;
@@ -52,3 +52,8 @@
 	}
 
 	.close:hover { background: #00d9ff; }
+
+	textarea
+	{
+		resize: none;
+	}
