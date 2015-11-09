@@ -4,6 +4,8 @@ from django.contrib import auth
 from django.shortcuts import render_to_response, redirect
 from django.core.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
+from pererabotka.models import brigada
+from pererabotka import models
 
 
 # Create your views here.
@@ -39,6 +41,8 @@ def register(request):
             newuser_form.save()
             newuser = auth.authenticate(username=newuser_form.cleaned_data['username'],
                                         password=newuser_form.cleaned_data['password2'])
+            a = models.brigada(name=newuser)
+            a.save()
             auth.login(request, newuser)
             return redirect('/')
         else:
