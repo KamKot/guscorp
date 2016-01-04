@@ -29,6 +29,9 @@
             <h1><a href="/">Главная</a></h1>
             </li>
         </ul>
+        <ul class="left">
+            <li class="name"><a> Сумма за текущий месяц: {% block t_sum %}{% endblock %}</a></li>
+        </ul>
         <ul class="right">
             {% if username %}
             <li><a href="/auth/logout/">Выйти ({{ username }})</a></li>

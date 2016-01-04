@@ -9,9 +9,8 @@ from pererabotka.forms import PerForm
 from . import models
 import datetime
 
-# Create your views here.
 
-
+# вывод переработок
 def get_per(request, page_number=1):
     args = {}
     args.update(csrf(request))
@@ -21,7 +20,12 @@ def get_per(request, page_number=1):
     current_page = Paginator(all_pererabotki, 1)
     args['pererabotki'] = current_page.page(page_number)
     args['username'] = user
+    y = 0
+    for x in all_pererabotki:
+       y += x.total_sum
+    args['tsum'] = y
     return render_to_response('show_pererabotka.html', args)
+
 
 # вывод стартовой страницы
 def get_start(request):
