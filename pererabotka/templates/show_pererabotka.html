@@ -6,23 +6,25 @@
 {% if username %}
 <div class="row">
 {% for per in pererabotki %}
-    <h5>Имя сотрудника: {{ per.per_to_brigada.name }}</h5>
-    <p>ID бригады: {{ per.p_id }}</p>
-    <p class="small-5 columns">Дата начала выезда: {{ per.p_date_start }}</p>
-    <p class="small-7 columns">Время начала выезда: {{ per.p_time_start }}</p>
-    <p class="small-5 columns">Дата окончания выезда: {{ per.p_date_finish }}</p>
-    <p class="small-7 columns">Время окончания выезда: {{ per.p_time_finish }}</p>
-    <p class="small-8 column">Адрес выезда: {{ per.p_address }}</p>
-    <p class="small-8 column">Описание выезда: {{ per.p_description }}</p>
-    <p class="small-8 column">Стоимость часа: {{ per.hours_cost }}</p>
-    <p class="small-5 columns">Количество дневных часов: {{ per.kol_den }}</p>
-    <p class="small-7 columns">Сумма дневных часов: {{ per.den }}</p>
-    <p class="small-5 columns">Количество ночных часов: {{ per.kol_noch }}</p>
-    <p class="small-7 columns">Сумма ночных часов: {{ per.noch }}</p>
-    <p class="small-8 column">Общее количество отработанных часов: {{ per.total_hours }}</p>
-    <p class="small-8 column">Сумма: {{ per.total_sum }}</p>
+    <a href="/pererabotka/{{ per.p_date_start.isoformat }}/"><p class="small-5">{{ per.p_date_start }}</p></a>
     <hr>
 {% endfor %}
+<div class="row">
+{% for d_per in date_pererabotki %}
+    <h5>Имя сотрудника: {{ d_per.per_to_brigada.name }}</h5>
+    <p>ID бригады: {{ d_per.p_id }}</p>
+    <p class="large-5 columns">Дата начала выезда: {{ d_per.p_date_start }}</p>
+    <p class="large-7 columns">Время начала выезда: {{ d_per.p_time_start }}</p>
+    <p class="large-5 columns">Дата окончания выезда: {{ d_per.p_date_finish }}</p>
+    <p class="large-7 columns">Время окончания выезда: {{ d_per.p_time_finish }}</p>
+    <p>Адрес выезда: {{ d_per.p_address }}</p>
+    <p>Описание выезда: {{ d_per.p_description }}</p>
+    <p>Стоимость часа: {{ d_per.hours_cost }}</p>
+    <p>Колисчество часов: {{ d_per.total_hours }}</p>
+    <p>Сумма: {{ d_per.total_sum }}</p>
+    <hr>
+{% endfor %}
+</div>
 <div class="row">
 <div class="large-push-4 large-7 columns">
     <ul class="pagination">
@@ -53,4 +55,5 @@
     <p>Для продолжения работы войдите под своим логином или зарегистрируйтесь</p>
     <a href="/auth/login/">Войти</a>
     {% endif %}
+
 {% endblock %}

@@ -17,12 +17,29 @@ def get_per(request, page_number=1):
     user = auth.get_user(request).username
     user_id = auth.get_user(request).id
     all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id)
-    current_page = Paginator(all_pererabotki, 1)
-    args['pererabotki'] = current_page.page(page_number)
+    #current_page = Paginator(all_pererabotki, 1)
+    #args['pererabotki'] = current_page.page(page_number)
+    args['pererabotki'] = all_pererabotki
     args['username'] = user
     y = 0
     for x in all_pererabotki:
-       y += x.total_sum
+        y += x.total_sum
+    args['tsum'] = y
+    return render_to_response('show_pererabotka.html', args)
+
+
+def get_per2(request, date_per='2015-12-19'):
+    args = {}
+    args.update(csrf(request))
+    user = auth.get_user(request).username
+    user_id = auth.get_user(request).id
+    all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id)
+    date_pererabotki = pererabotka.objects.filter(p_date_start=date_per)
+    args['date_pererabotki'] = date_pererabotki
+    args['username'] = user
+    y = 0
+    for x in all_pererabotki:
+        y += x.total_sum
     args['tsum'] = y
     return render_to_response('show_pererabotka.html', args)
 
@@ -74,15 +91,15 @@ def add_per(request):
         if date_s == date_f:
             if noch_start <= nachalo <= noch_fin and noch_start1 <= konec <= noch_fin1:
                 # Если  время начала переработок между 00 и 06 и конец между 22 и 23:59
-                noch_chas = (noch_fin - nachalo) + (konec - noch_start1)    # ночные часы
-                den_chas = noch_start1 - noch_fin                           # дневные часы
-                sum_noch = noch_chas * 2 * cena_chasa                       # сумма за дневные
-                sum_den = den_chas * 1.5 * cena_chasa                       # сумма за ночные
-                summa = sum_den + sum_noch                                  # общая сумма
-                total_chas = den_chas + noch_chas                           # общее количество отработанных часов
-                kol_den_chas = den_chas                                     # количество ночных часов
-                kol_nosh_chas = noch_chas                                   # количество дневных часов
-                a.kol_noch = kol_nosh_chas                                  # запись в БД
+                noch_chas = (noch_fin - nachalo) + (konec - noch_start1)  # ночные часы
+                den_chas = noch_start1 - noch_fin  # дневные часы
+                sum_noch = noch_chas * 2 * cena_chasa  # сумма за дневные
+                sum_den = den_chas * 1.5 * cena_chasa  # сумма за ночные
+                summa = sum_den + sum_noch  # общая сумма
+                total_chas = den_chas + noch_chas  # общее количество отработанных часов
+                kol_den_chas = den_chas  # количество ночных часов
+                kol_nosh_chas = noch_chas  # количество дневных часов
+                a.kol_noch = kol_nosh_chas  # запись в БД
                 a.kol_den = kol_den_chas
                 a.total_hours = total_chas
                 a.den = sum_den
