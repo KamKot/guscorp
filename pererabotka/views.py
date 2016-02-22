@@ -10,37 +10,56 @@ from . import models
 import datetime
 
 
-# вывод переработок
-def get_per(request, page_number=1):
-    args = {}
-    args.update(csrf(request))
-    user = auth.get_user(request).username
+'''def get_mes(request, mesyac='12'):
+    if request.method == 'POST':
+        mesyac=request.POST['mesyac']
+
+    #if mesyac not in request.COOKIES:
+    request.session["mes"] = mesyac'''
+
+
+def get_sum(request, mesyac='12'):
+    if 'mes' in request.session:
+        mes = request.session["mes"]
+    else:
+        mes = mesyac
     user_id = auth.get_user(request).id
-    all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id)
-    #current_page = Paginator(all_pererabotki, 1)
-    #args['pererabotki'] = current_page.page(page_number)
-    args['pererabotki'] = all_pererabotki
-    args['username'] = user
+    all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id, p_date_start__contains='-'+mes+'-')
     y = 0
     for x in all_pererabotki:
         y += x.total_sum
-    args['tsum'] = y
-    return render_to_response('show_pererabotka.html', args)
+    sum = y
+    return sum
 
 
-def get_per2(request, date_per='2015-12-19'):
+# вывод переработок
+def get_per(request, mesyac='12'):
+    if request.method == 'POST':
+        mesyac=request.POST['mesyac']
+    if 'mes' in request.session:
+        mes = mesyac
+        request.session["mes"] = mesyac
+    else:
+        request.session["mes"] = mesyac
+        mes = request.session["mes"]
     args = {}
     args.update(csrf(request))
-    user = auth.get_user(request).username
     user_id = auth.get_user(request).id
-    all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id)
+    all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id, p_date_start__contains='-'+mes+'-')
+    args['pererabotki'] = all_pererabotki
+    args['username'] = auth.get_user(request).username
+    args['tsum'] = get_sum(request)
+    return render_to_response('date_pererabotka.html', args)
+
+
+def get_per2(request, date_per):
+    args = {}
+    args.update(csrf(request))
+    user_id = auth.get_user(request).id
     date_pererabotki = pererabotka.objects.filter(p_date_start=date_per)
     args['date_pererabotki'] = date_pererabotki
-    args['username'] = user
-    y = 0
-    for x in all_pererabotki:
-        y += x.total_sum
-    args['tsum'] = y
+    args['username'] = auth.get_user(request).username
+    args['tsum'] = get_sum(request)
     return render_to_response('show_pererabotka.html', args)
 
 
@@ -49,6 +68,12 @@ def get_start(request):
     args = {}
     args.update(csrf(request))
     start_t = start.objects.all()
+    user_id = auth.get_user(request).id
+    all_pererabotki = pererabotka.objects.filter(per_to_brigada=user_id)
+    y = 0
+    for x in all_pererabotki:
+        y += x.total_sum
+    args['tsum'] = y
     args['start_txt'] = start_t
     args['username'] = auth.get_user(request).username
     return render_to_response('start.html', args)
@@ -77,7 +102,7 @@ def add_per(request):
 
         noch_start = 0
         noch_fin = 6
-        noch_start1 = 22
+        noch_start1 = 21.5
         noch_fin1 = 24
 
         date_s = datetime.datetime.strptime(a.p_date_start, '%Y-%m-%d')

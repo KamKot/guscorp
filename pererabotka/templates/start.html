@@ -9,11 +9,16 @@
 <body>
 {% block start %}
     <div class="large-8 columns">
+{% if username %}
 {% for start in start_txt %}
     <h4>{{ start.start_text }}</h4>
-    <p><a href="/pererabotka/">{{ start.start_description }}</a></p>
+    <p><a href="/date_pererabotka/">{{ start.start_description }}</a></p>
 {% endfor %}
 </div>
+    {% else %}
+    <p>Для продолжения работы войдите под своим логином или зарегистрируйтесь</p>
+    <a href="/auth/login/">Войти</a>
+{% endif %}
 {% endblock %}
 </body>
 </html>

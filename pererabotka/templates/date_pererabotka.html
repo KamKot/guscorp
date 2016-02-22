@@ -1,0 +1,117 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+
+{% block t_sum %}{{ tsum }}{% endblock %}
+{% block pererabotka %}
+{% if username %}
+    <div class="row">
+        <form class="small-1 columns row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="01" /><br/>
+            <input type="submit" class="small warning hollow button" value="Январь" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="02" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Февраль" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="03" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Март" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="04" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Апрель" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="05" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Май" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="06" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Июнь" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="07" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Июль" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="08" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Август" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="09" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Сентябрь" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="10" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Октябрь" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="11" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Ноябрь" />
+        </form>
+
+        <form class="small-1 column row" method="post" action="/date_pererabotka/">
+             {% csrf_token %}
+            <input type="hidden" name="mesyac" value="12" hidden /><br/>
+            <input type="submit" class="small warning hollow button" value="Декабрь" />
+        </form>
+</div>
+
+<div class="row">
+{% for per in pererabotki %}
+    <a href="/pererabotka/{{ per.p_date_start.isoformat }}/"><p class="warning button round small">{{ per.p_date_start }}</p></a>
+    <br>
+{% endfor %}
+<div class="row">
+<div class="large-push-4 large-7 columns">
+    <ul class="pagination">
+        {% if pererabotki.has_previous %}
+            <li class="arrow"><a href="/page/{{ pererabotki.previous_page_number }}/">&laquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&laquo;</a></li>
+        {% endif %}
+
+        {% for page in pererabotki.paginator.page_range %}
+            {% if page == pererabotki.number %}
+                <li class="current"><a href="/page/{{ page }}/">{{ page }}</a></li>
+            {% else %}
+                <li><a href="/page/{{ page }}/">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if pererabotki.has_next %}
+            <li class="arrow"><a href="/page/{{ pererabotki.next_page_number }}/">&raquo;</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href="">&raquo;</a></li>
+        {% endif %}
+    </ul>
+</div>
+</div>
+</div>
+    {% else %}
+    <p>Для продолжения работы войдите под своим логином или зарегистрируйтесь</p>
+    <a href="/auth/login/">Войти</a>
+    {% endif %}
+
+{% endblock %}

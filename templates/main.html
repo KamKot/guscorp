@@ -20,17 +20,18 @@
 	<script type="text/javascript" src="{% static "static/foundation/foundation_calendar/foundation_calendar.js" %}"></script>
 	<script type="text/javascript" src="{% static "static/foundation/foundation_calendar/helpers/date-helpers.js" %}"></script>
 	<script type="text/javascript" src="{% static "static/foundation/foundation_calendar/helpers/string-helpers.js" %}"></script>
+
 </head>
 <body>
 <div class="top-bar">
     <section class="top-bar-section">
         <ul class="title-area">
             <li class="name">
-            <h1><a href="/">Главная</a></h1>
+            <h1><a href="/date_pererabotka/">Главная</a></h1>
             </li>
         </ul>
         <ul class="left">
-            <li class="name"><a> Сумма за текущий месяц: {% block t_sum %}{% endblock %}</a></li>
+            <li class="name"><a> Сумма за текущий месяц: {% block t_sum %}{{ tsum }}{% endblock %}</a></li>
         </ul>
         <ul class="right">
             {% if username %}
