@@ -10,14 +10,6 @@ from . import models
 import datetime
 
 
-'''def get_mes(request, mesyac='12'):
-    if request.method == 'POST':
-        mesyac=request.POST['mesyac']
-
-    #if mesyac not in request.COOKIES:
-    request.session["mes"] = mesyac'''
-
-
 def get_sum(request, mesyac='12'):
     if 'mes' in request.session:
         mes = request.session["mes"]
@@ -86,6 +78,11 @@ def add_per(request):
     args['form'] = PerForm
     args.update(csrf(request))
     if request.method == 'POST':
+        c = request.POST.getlist('vihodnoy')
+        if c == []:
+            c = 0
+        else:
+            c = 1
         b = models.brigada(name=request.POST['name'])
         a = models.pererabotka(p_id=request.POST['p_id'], p_date_start=request.POST['date_start'],
                                p_time_start=request.POST['time_start'], p_date_finish=request.POST['date_finish'],
@@ -114,7 +111,14 @@ def add_per(request):
         konec = chasy.get(konec)
 
         if date_s == date_f:
-            if noch_start <= nachalo <= noch_fin and noch_start1 <= konec <= noch_fin1:
+            if noch_start <= noch_fin1 and c == 1:
+                total_chas = konec - nachalo
+                summa = 2 * cena_chasa * total_chas
+                a.total_hours = total_chas
+                a.kol_noch = total_chas
+                a.noch = summa
+                a.total_sum = summa
+            elif noch_start <= nachalo <= noch_fin and noch_start1 <= konec <= noch_fin1:
                 # Если  время начала переработок между 00 и 06 и конец между 22 и 23:59
                 noch_chas = (noch_fin - nachalo) + (konec - noch_start1)  # ночные часы
                 den_chas = noch_start1 - noch_fin  # дневные часы

@@ -34,3 +34,4 @@ class PerForm(forms.ModelForm):
 class PerForm(forms.Form):
         #name = forms.ChoiceField(label='Имя сотрудника', widget=forms.SelectMultiple, choices=CHOICES)
         name = forms.ModelChoiceField(queryset=brigada.objects.values_list('id', 'name'), widget=forms.Select)
+        #vihod = forms.CheckboxInput(check_test='checked')
