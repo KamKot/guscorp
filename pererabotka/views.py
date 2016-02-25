@@ -10,6 +10,15 @@ from . import models
 import datetime
 
 
+-'''def get_mes(request, mesyac='12'):
+-    if request.method == 'POST':
+-        mesyac=request.POST['mesyac']
+-
+-    #if mesyac not in request.COOKIES:
+-    request.session["mes"] = mesyac'''
+-
+-
+
 def get_sum(request, mesyac='12'):
     if 'mes' in request.session:
         mes = request.session["mes"]
